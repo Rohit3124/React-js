@@ -1,7 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDom from "react-dom";
 
-const parent = document.getElementById("root");
+import Counter from "./components/counter";
 
-const element = <h1>Hello React</h1>;
-ReactDOM.render(element, parent);
+ReactDom.render(<Counter />, document.getElementById("root"));
