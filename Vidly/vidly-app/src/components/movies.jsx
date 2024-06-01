@@ -1,24 +1,31 @@
 import React, { Component } from "react";
 import getMovies from "../services/fakeMovieService";
 import Like from "./common/like";
+import Pagination from "./common/pagination";
+import { paginate } from "../utils/paginate";
 
 class MovieList extends Component {
   state = {
     movies: getMovies,
+    pageSize: 4,
+    currentPage: 1,
   };
 
   render() {
-    const { movies } = this.state;
-    if (movies.length === 0)
+    const { movies: allMovies, pageSize, currentPage } = this.state;
+
+    if (allMovies.length === 0)
       return (
         <p className="m-2 fs-4 fw-medium">
           There are no movies in the database.
         </p>
       );
+    const movies = paginate(allMovies, currentPage, pageSize);
+
     return (
       <>
         <p className="m-2 fs-4 fw-medium">
-          Showing {movies.length} movies in the database.
+          Showing {allMovies.length} movies in the database.
         </p>
         <table className="table ">
           <thead>
@@ -32,7 +39,7 @@ class MovieList extends Component {
             </tr>
           </thead>
           <tbody className="table-group-divider">
-            {this.state.movies.map((movie) => (
+            {movies.map((movie) => (
               <tr key={movie._id}>
                 <th>{movie.title}</th>
                 <td>{movie.genre.name}</td>
@@ -56,6 +63,12 @@ class MovieList extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination
+          itemsCount={allMovies.length}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        />
       </>
     );
   }
@@ -69,6 +82,9 @@ class MovieList extends Component {
     const index = movies.indexOf(movie);
     movies[index].like = !movies[index].like;
     this.setState({ movies });
+  };
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
   };
 }
 

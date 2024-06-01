@@ -1,18 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-class Like extends Component {
-  render() {
-    let classes = "fa-heart fa-";
-    if (!this.props.liked) classes += "regular";
-    return (
-      <FontAwesomeIcon
-        icon={classes}
-        onClick={this.props.onClick}
-        style={{ cursor: "pointer" }}
-      />
-    );
-  }
-}
+const Like = (props) => {
+  let classes = "fa-heart fa-";
+  if (!props.liked) classes += "regular";
+  return (
+    <FontAwesomeIcon
+      icon={classes}
+      onClick={props.onClick}
+      style={{ cursor: "pointer" }}
+    />
+  );
+};
 
 export default Like;
