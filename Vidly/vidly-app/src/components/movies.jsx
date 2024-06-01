@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import movies from "./services/fakeMovieService";
+import getMovies from "../services/fakeMovieService";
+import Like from "./common/like";
 
-class Vidly extends Component {
+class MovieList extends Component {
   state = {
-    movies: movies,
+    movies: getMovies,
   };
 
   render() {
@@ -26,6 +27,8 @@ class Vidly extends Component {
               <th scope="col">Genre</th>
               <th scope="col">Stock</th>
               <th scope="col">Rate</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody className="table-group-divider">
@@ -35,6 +38,12 @@ class Vidly extends Component {
                 <td>{movie.genre.name}</td>
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
+                <th>
+                  <Like
+                    liked={movie.like}
+                    onClick={() => this.handleLike(movie)}
+                  />
+                </th>
                 <td>
                   <button
                     onClick={() => this.deleteMovie(movie)}
@@ -55,6 +64,12 @@ class Vidly extends Component {
     const movies = this.state.movies.filter((c) => c !== movie);
     this.setState({ movies });
   };
+  handleLike = (movie) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index].like = !movies[index].like;
+    this.setState({ movies });
+  };
 }
 
-export default Vidly;
+export default MovieList;
