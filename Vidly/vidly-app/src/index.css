@@ -7,3 +7,6 @@
 .clickable {
   cursor: pointer;
 }
+.fixed-table {
+  width: 10%;
+}

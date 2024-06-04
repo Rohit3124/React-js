@@ -14,11 +14,11 @@ class TableBody extends Component {
   render() {
     const { data, columns } = this.props;
     return (
-      <tbody className="w-75">
+      <tbody>
         {data.map((item) => (
           <tr key={item._id}>
             {columns.map((column) => (
-              <td key={this.createKey(item, column)}>
+              <td key={this.createKey(item, column)} className="fixed-table">
                 {this.renderCell(item, column)}
               </td>
             ))}
