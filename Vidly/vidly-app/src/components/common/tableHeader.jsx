@@ -1,44 +1,42 @@
-import React, { Component } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-class TableHeader extends Component {
-  raiseSort = (path) => {
+const TableHeader = (props) => {
+  function raiseSort(path) {
     if (path) {
-      const sortColumn = { ...this.props.sortColumn };
+      const sortColumn = { ...props.sortColumn };
       if (sortColumn.path === path)
         sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
       else {
         sortColumn.path = path;
         sortColumn.order = "asc";
       }
-      this.props.onSort(sortColumn);
+      props.onSort(sortColumn);
     }
-  };
-  renderSortIcon = (column) => {
-    const { sortColumn } = this.props;
+  }
+  function renderSortIcon(column) {
+    const { sortColumn } = props;
     if (column.path !== sortColumn.path) return null;
     if (sortColumn.order === "asc")
       return <FontAwesomeIcon icon="fa-solid fa-sort-up" />;
     return <FontAwesomeIcon icon="fa-solid fa-sort-down" />;
-  };
-  render() {
-    return (
-      <thead>
-        <tr>
-          {this.props.columns.map((column) => (
-            <th
-              className="clickable "
-              key={column.path || column.key}
-              onClick={() => this.raiseSort(column.path)}
-            >
-              {column.label}
-              {this.renderSortIcon(column)}
-            </th>
-          ))}
-        </tr>
-      </thead>
-    );
   }
-}
+  return (
+    <thead>
+      <tr>
+        {props.columns.map((column) => (
+          <th
+            className="clickable "
+            key={column.path || column.key}
+            onClick={() => raiseSort(column.path)}
+          >
+            {column.label}
+            {renderSortIcon(column)}
+          </th>
+        ))}
+      </tr>
+    </thead>
+  );
+};
 
 export default TableHeader;
