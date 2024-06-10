@@ -9,13 +9,12 @@ import _ from "lodash";
 
 const MoviesList = () => {
   const [allMovies, setAllMovies] = useState(getMovies);
-
-  const genres = [{ _id: "", name: "All Genres" }, ...getGenres];
-  console.log(genres[0]);
-  const [selectedGenre, setSelectedGenre] = useState(null);
-  const pageSize = 4;
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState({ path: "title", order: "asc" });
+  const genres = [{ _id: "", name: "All Genres" }, ...getGenres];
+  const [selectedGenre, setSelectedGenre] = useState(genres[0]);
+
+  const pageSize = 4;
   if (allMovies.length === 0)
     return (
       <p className=" fs-4 fw-medium">There are no movies in the database.</p>
@@ -36,6 +35,7 @@ const MoviesList = () => {
           onItemSelect={handleGenreSelect}
         />
       </div>
+
       <div className="col ">
         <p className=" fs-4 fw-medium">
           Showing {filtered.length} movies in the database.
@@ -56,6 +56,7 @@ const MoviesList = () => {
       </div>
     </div>
   );
+
   function deleteMovie(movie) {
     setAllMovies(allMovies.filter((c) => c !== movie));
   }
