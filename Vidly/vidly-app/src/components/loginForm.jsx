@@ -1,12 +1,21 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const schema = z.object({
+  username: z
+    .string()
+    .min(4, { message: "Username must be at least 4 characters." }),
+  password: z.string().min(8, "Password must contain at least 8 characters."),
+});
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: zodResolver(schema) });
 
   const onSubmit = (data) => console.log(data);
 
@@ -19,18 +28,13 @@ const LoginForm = () => {
             Username
           </label>
           <input
-            {...register("username", { required: true, minLength: 4 })}
+            {...register("username")}
             id="username"
             type="text"
             className="form-control"
           />
-          {errors.username?.type === "required" && (
-            <p className="text-danger">The username filed is required</p>
-          )}
-          {errors.username?.type === "minLength" && (
-            <p className="text-danger">
-              The username must be at least 4 charracters
-            </p>
+          {errors.username && (
+            <p className="text-danger">{errors.username.message}</p>
           )}
         </div>
         <div className="mb-3">
@@ -44,6 +48,9 @@ const LoginForm = () => {
             className="form-control"
           />
         </div>
+        {errors.password && (
+          <p className="text-danger">{errors.password.message}</p>
+        )}
         <button className="btn btn-primary">Login</button>
       </form>
     </div>
