@@ -4,13 +4,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
-  username: z
+  username: z.string().email({ message: "'Username' must be a vaild email" }),
+  name: z
     .string()
     .min(4, { message: "Username must be at least 4 characters." }),
   password: z.string().min(8, "Password must contain at least 8 characters."),
 });
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const {
     register,
     handleSubmit,
@@ -21,7 +22,7 @@ const LoginForm = () => {
 
   return (
     <div className="w-25 mx-auto">
-      <h1>Login</h1>
+      <h1>Register</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-3">
           <label htmlFor="username" className="form-label">
@@ -51,6 +52,18 @@ const LoginForm = () => {
         {errors.password && (
           <p className="text-danger">{errors.password.message}</p>
         )}
+        <div className="mb-3">
+          <label htmlFor="name" className="form-label">
+            Name
+          </label>
+          <input
+            {...register("name")}
+            id="name"
+            type="text"
+            className="form-control"
+          />
+          {errors.name && <p className="text-danger">{errors.name.message}</p>}
+        </div>
         <button disabled={!isValid} className="btn btn-primary">
           Login
         </button>
@@ -59,4 +72,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

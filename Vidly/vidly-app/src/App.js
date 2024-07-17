@@ -5,6 +5,7 @@ import MovieForm from "./components/movieForm";
 import Rentals from "./components/rentals";
 import NotFound from "./components/notFound";
 import LoginForm from "./components/loginForm";
+import RegisterForm from "./components/register";
 import Navbar from "./components/navbar";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
@@ -45,6 +46,15 @@ const App = () => {
         <>
           <Navbar />
           <LoginForm />
+        </>
+      ),
+    },
+    {
+      path: "/register",
+      element: (
+        <>
+          <Navbar />
+          <RegisterForm />
         </>
       ),
     },
